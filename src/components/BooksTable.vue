@@ -23,10 +23,12 @@
       </tr>
     </tbody>
   </table>
-  <span ref="bottom"></span>
+  <p class="loading" :aria-busy="isLoading"></p>
+  <span v-if="booksList?.length" ref="bottom"></span>
 </template>
 <script setup>
 import { useBooksStore } from '@/stores/books';
+import { useLoadingStore } from '@/stores/loading';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useInfiniteScroll } from '@vueuse/core';
@@ -36,9 +38,17 @@ const booksStore = useBooksStore();
 const { fetchBooks } = booksStore;
 const { booksList, hasMoreBooks } = storeToRefs(booksStore);
 
+const loadingStore = useLoadingStore();
+const { isLoading } = storeToRefs(loadingStore);
+
 useInfiniteScroll(bottom, async () => await fetchBooks(), {
   distance: 10,
   interval: 500,
   canLoadMore: () => hasMoreBooks.value
 });
 </script>
+<style scoped>
+.loading {
+  width: 100%;
+}
+</style>

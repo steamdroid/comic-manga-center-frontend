@@ -1,9 +1,16 @@
 import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
+import { defineStore, storeToRefs } from 'pinia';
+import { watchDebounced } from '@vueuse/core';
 import { useFiltersStore } from '@/stores/filters';
+import { useLoadingStore } from '@/stores/loading';
 import booksApi from '@/services/booksApi.js';
 
 export const useBooksStore = defineStore('books', () => {
+  const filtersStore = useFiltersStore();
+  const { filterQs } = storeToRefs(filtersStore);
+
+  const loadingStore = useLoadingStore();
+
   const booksList = ref([]);
   const currentPage = ref(1);
   const lastPage = ref(null);
@@ -13,13 +20,21 @@ export const useBooksStore = defineStore('books', () => {
       return;
     }
 
-    const { filterQs } = useFiltersStore();
-
     if (booksList.value.length && loadNextPage) {
       currentPage.value += 1;
     }
 
-    const books = await booksApi.getBooks(filterQs + '&page=' + currentPage.value); // TODO refactor
+    let books = [];
+
+    loadingStore.startLoading();
+
+    try {
+      books = await booksApi.getBooks(filterQs.value + '&page=' + currentPage.value); // TODO refactor
+    } catch (err) {
+      console.error(err);
+    }
+
+    loadingStore.stopLoading();
 
     booksList.value = [...booksList.value, ...books.data];
     currentPage.value = books.current_page;
@@ -43,6 +58,8 @@ export const useBooksStore = defineStore('books', () => {
     }
     return lastPage.value === null || currentPage.value < lastPage.value;
   });
+
+  watchDebounced(filterQs, clearAndFetch, { debounce: 700, maxWait: 3000 }); // TODO запускать вотчер только после загрузки всех фильтров
 
   return {
     booksList,

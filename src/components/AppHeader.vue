@@ -19,7 +19,7 @@
         </ul>
       </nav>
       <nav class="top-nav">
-        <ul class="column-sm" v-if="statusList?.length">
+        <ul class="column-sm">
           <li v-for="status in statusList" :key="status.id">
             <label>
               <input
@@ -33,9 +33,8 @@
           </li>
         </ul>
       </nav>
-      <form role="search" @submit.prevent="clearAndFetch">
+      <form role="search" @submit.prevent="">
         <input v-model="searchQuery" type="search" name="search" placeholder="Название или автор" />
-        <input type="submit" value="Найти" />
       </form>
     </div>
   </header>
