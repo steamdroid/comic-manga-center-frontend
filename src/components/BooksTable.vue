@@ -14,12 +14,21 @@
     <tbody>
       <tr v-for="book in booksList" :key="book.id">
         <td>{{ book.author }}</td>
-        <td>{{ book.name }} <span v-if="book.is_new" class="badge badge--red">Новинка</span></td>
+        <td>{{ book.name }} <span v-if="book.is_new" class="badge badge--new">Новинка</span></td>
         <td>{{ book.publisher }}</td>
         <td>{{ book.rating }}</td>
         <td>{{ book.language.name }}</td>
         <td>{{ book.year }}</td>
-        <td>{{ book.status.name }}</td>
+        <td>
+          <span
+            :class="{
+              'status-available': book.status.id === 1 || book.status.id === 4,
+              'status--booked': book.status.id === 3
+            }"
+          >
+            {{ book.status.name }}
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -57,10 +66,16 @@ useInfiniteScroll(bottom, async () => await fetchBooks(), {
   font-size: 14px;
   padding: 0 7px;
   border-radius: 3px;
-}
-.badge--red {
-  background-color: #ff0000;
   color: #ffffff;
+}
+.badge--new {
+  background-color: #ff0000;
+}
+.status-available {
+  color: #28a745;
+}
+.status-booked {
+  background-color: #0172ad;
 }
 .text-center {
   text-align: center;
