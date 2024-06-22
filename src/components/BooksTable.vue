@@ -14,7 +14,7 @@
     <tbody>
       <tr v-for="book in booksList" :key="book.id">
         <td>{{ book.author }}</td>
-        <td>{{ book.name }}</td>
+        <td>{{ book.name }} <span v-if="book.is_new" class="badge badge--red">Новинка</span></td>
         <td>{{ book.publisher }}</td>
         <td>{{ book.rating }}</td>
         <td>{{ book.language.name }}</td>
@@ -50,5 +50,15 @@ useInfiniteScroll(bottom, async () => await fetchBooks(), {
 <style scoped>
 .loading {
   width: 100%;
+}
+.badge {
+  display: inline-block;
+  font-size: 14px;
+  padding: 0 7px;
+  border-radius: 3px;
+}
+.badge--red {
+  background-color: #ff0000;
+  color: #ffffff;
 }
 </style>
