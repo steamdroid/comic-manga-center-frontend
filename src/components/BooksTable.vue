@@ -15,7 +15,10 @@
       <tbody>
         <tr v-for="book in booksList" :key="book.id">
           <td>{{ book.author }}</td>
-          <td>{{ book.name }} <span v-if="book.is_new" class="badge badge--new">Новинка</span></td>
+          <td>
+            <span :data-tooltip="book.comment">{{ book.name }}</span>
+            <span v-if="book.is_new" class="badge badge--new">Новинка</span>
+          </td>
           <td>{{ book.publisher }}</td>
           <td>{{ book.rating }}</td>
           <td>{{ book.language.name }}</td>
