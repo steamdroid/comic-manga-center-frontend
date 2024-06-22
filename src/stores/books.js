@@ -59,6 +59,8 @@ export const useBooksStore = defineStore('books', () => {
     return lastPage.value === null || currentPage.value < lastPage.value;
   });
 
+  loadingStore.startLoading();
+
   watchDebounced(filterQs, clearAndFetch, { debounce: 700, maxWait: 3000 }); // TODO запускать вотчер только после загрузки всех фильтров
 
   return {

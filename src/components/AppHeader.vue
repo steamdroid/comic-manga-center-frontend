@@ -9,6 +9,7 @@
                 {{ category.name }}
               </option>
             </select>
+            <SkeletonText v-else />
           </li>
           <li>
             <label>
@@ -19,7 +20,7 @@
         </ul>
       </nav>
       <nav class="top-nav">
-        <ul class="column-sm">
+        <ul class="column-sm" v-if="statusList?.length">
           <li v-for="status in statusList" :key="status.id">
             <label>
               <input
@@ -32,6 +33,7 @@
             </label>
           </li>
         </ul>
+        <SkeletonText v-else />
       </nav>
       <form role="search" @submit.prevent="">
         <input v-model="searchQuery" type="search" name="search" placeholder="Название или автор" />
@@ -40,18 +42,15 @@
   </header>
 </template>
 <script setup>
+import SkeletonText from '@/components/SkeletonText.vue';
 import { onBeforeMount } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useFiltersStore } from '@/stores/filters.js';
-import { useBooksStore } from '@/stores/books.js';
 
 const filtersStore = useFiltersStore();
 const { fetchCategories, fetchStatuses } = filtersStore;
 const { searchQuery, categoriesList, currentCategoryId, statusList, onlyNew } =
   storeToRefs(filtersStore);
-
-const booksStore = useBooksStore();
-const { clearAndFetch } = booksStore;
 
 onBeforeMount(async () => {
   await fetchCategories();
