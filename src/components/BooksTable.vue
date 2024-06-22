@@ -72,6 +72,7 @@ useInfiniteScroll(bottom, async () => await fetchBooks(), {
   padding: 0 7px;
   border-radius: 3px;
   color: #ffffff;
+  margin: 0 5px;
 }
 .badge--new {
   background-color: #ff0000;
