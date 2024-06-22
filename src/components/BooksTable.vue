@@ -1,37 +1,39 @@
 <template>
-  <table v-if="booksList?.length" class="striped">
-    <thead>
-      <tr>
-        <th>Автор</th>
-        <th>Название</th>
-        <th>Издательство</th>
-        <th>Рейтинг</th>
-        <th>Язык</th>
-        <th>Год</th>
-        <th>Статус</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="book in booksList" :key="book.id">
-        <td>{{ book.author }}</td>
-        <td>{{ book.name }} <span v-if="book.is_new" class="badge badge--new">Новинка</span></td>
-        <td>{{ book.publisher }}</td>
-        <td>{{ book.rating }}</td>
-        <td>{{ book.language.name }}</td>
-        <td>{{ book.year }}</td>
-        <td>
-          <span
-            :class="{
-              'status-available': book.status.id === 1 || book.status.id === 4,
-              'status--booked': book.status.id === 3
-            }"
-          >
-            {{ book.status.name }}
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrapper" v-if="booksList?.length">
+    <table class="striped">
+      <thead>
+        <tr>
+          <th>Автор</th>
+          <th>Название</th>
+          <th>Издательство</th>
+          <th>Рейтинг</th>
+          <th>Язык</th>
+          <th>Год</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="book in booksList" :key="book.id">
+          <td>{{ book.author }}</td>
+          <td>{{ book.name }} <span v-if="book.is_new" class="badge badge--new">Новинка</span></td>
+          <td>{{ book.publisher }}</td>
+          <td>{{ book.rating }}</td>
+          <td>{{ book.language.name }}</td>
+          <td>{{ book.year }}</td>
+          <td>
+            <span
+              :class="{
+                'status-available': book.status.id === 1 || book.status.id === 4,
+                'status--booked': book.status.id === 3
+              }"
+            >
+              {{ book.status.name }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <p class="text-center" v-else-if="!isLoading">По данному запросу ничего не найдено</p>
   <p class="loading" :aria-busy="isLoading"></p>
   <span v-if="booksList?.length" ref="bottom"></span>
@@ -79,5 +81,9 @@ useInfiniteScroll(bottom, async () => await fetchBooks(), {
 }
 .text-center {
   text-align: center;
+}
+.table-wrapper {
+  max-width: 100%;
+  overflow-x: scroll;
 }
 </style>

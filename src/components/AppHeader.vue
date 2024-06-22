@@ -63,4 +63,11 @@ onBeforeMount(async () => {
   flex-direction: row;
   justify-content: flex-end;
 }
+@media screen and (max-width: 767px) {
+  .column-sm {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
 </style>
