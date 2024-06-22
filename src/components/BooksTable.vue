@@ -1,5 +1,5 @@
 <template>
-  <table class="striped">
+  <table v-if="booksList?.length" class="striped">
     <thead>
       <tr>
         <th>Автор</th>
@@ -23,6 +23,7 @@
       </tr>
     </tbody>
   </table>
+  <p class="text-center" v-else-if="!isLoading">По данному запросу ничего не найдено</p>
   <p class="loading" :aria-busy="isLoading"></p>
   <span v-if="booksList?.length" ref="bottom"></span>
 </template>
@@ -60,5 +61,8 @@ useInfiniteScroll(bottom, async () => await fetchBooks(), {
 .badge--red {
   background-color: #ff0000;
   color: #ffffff;
+}
+.text-center {
+  text-align: center;
 }
 </style>
