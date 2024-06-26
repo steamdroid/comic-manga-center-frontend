@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const booksApi = axios.create({
-  baseURL: 'http://comic-manga-center.lndo.site:8000/api/',
+  baseURL: '/api/',
   withCredentials: false,
   headers: {
     Accept: 'application/json',
