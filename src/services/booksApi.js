@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const booksApi = axios.create({
-  baseURL: '/api/',
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: false,
   headers: {
     Accept: 'application/json',
