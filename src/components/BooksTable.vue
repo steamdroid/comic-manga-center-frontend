@@ -26,7 +26,7 @@
           <td>
             <span
               :class="{
-                'status-available': book.status.id === 1 || book.status.id === 4,
+                'status--available': book.status.id === 1 || book.status.id === 4,
                 'status--booked': book.status.id === 3
               }"
             >
@@ -62,7 +62,7 @@ useInfiniteScroll(bottom, async () => await fetchBooks(), {
   canLoadMore: () => hasMoreBooks.value
 });
 </script>
-<style scoped>
+<style scoped lang="scss">
 .loading {
   width: 100%;
 }
@@ -73,19 +73,25 @@ useInfiniteScroll(bottom, async () => await fetchBooks(), {
   border-radius: 3px;
   color: #ffffff;
   margin: 0 5px;
+
+  &--new {
+    background-color: #ff0000;
+  }
 }
-.badge--new {
-  background-color: #ff0000;
+.status {
+  &--available {
+    color: #28a745;
+  }
+
+  &--booked {
+    background-color: #0172ad;
+  }
 }
-.status-available {
-  color: #28a745;
-}
-.status-booked {
-  background-color: #0172ad;
-}
+
 .text-center {
   text-align: center;
 }
+
 .table-wrapper {
   max-width: 100%;
   overflow-x: scroll;
