@@ -19,41 +19,36 @@
         <img class="header__logo" src="@/assets/logo.jpg" />
         <div class="header__nav-wrapper">
           <nav class="header__top-nav top-nav">
-            <ul class="top-nav__list">
-              <li>
-                <select name="category" v-if="categoriesList?.length" v-model="currentCategoryId">
-                  <option
-                    v-for="category in categoriesList"
-                    :key="category.id"
-                    :value="category.id"
-                  >
-                    {{ category.name }}
-                  </option>
-                </select>
-                <SkeletonText v-else />
-              </li>
-              <li>
-                <label>
-                  <input name="only_new" type="checkbox" v-model="onlyNew" role="switch" />
-                  Только новинки
-                </label>
-              </li>
-            </ul>
+            <fieldset class="top-nav__items">
+              <select
+                class="no-mb"
+                name="category"
+                v-if="categoriesList?.length"
+                v-model="currentCategoryId"
+              >
+                <option v-for="category in categoriesList" :key="category.id" :value="category.id">
+                  {{ category.name }}
+                </option>
+              </select>
+              <SkeletonText v-else />
+              <label class="no-wrap">
+                <input name="only_new" type="checkbox" v-model="onlyNew" role="switch" />
+                Только новинки
+              </label>
+            </fieldset>
           </nav>
           <nav class="header__top-nav top-nav">
-            <ul class="top-nav__list" v-if="statusList?.length">
-              <li v-for="status in statusList" :key="status.id">
-                <label>
-                  <input
-                    :name="'status_' + status.id"
-                    v-model="status.active"
-                    type="checkbox"
-                    role="switch"
-                  />
-                  <span>{{ status.name }}</span>
-                </label>
-              </li>
-            </ul>
+            <fieldset class="top-nav__items" v-if="statusList?.length">
+              <label v-for="status in statusList" :key="status.id">
+                <input
+                  :name="'status_' + status.id"
+                  v-model="status.active"
+                  type="checkbox"
+                  role="switch"
+                />
+                <span class="no-wrap">{{ status.name }}</span>
+              </label>
+            </fieldset>
             <SkeletonText v-else />
           </nav>
         </div>
@@ -68,7 +63,7 @@
 import SkeletonText from '@/components/SkeletonText.vue';
 import IconTelegram from '@/components/icons/IconTelegram.vue';
 import IconVk from '@/components/icons/IconVk.vue';
-import { ref, onBeforeMount } from 'vue';
+import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useFiltersStore } from '@/stores/filters.js';
 
@@ -77,9 +72,8 @@ const { fetchCategories, fetchStatuses } = filtersStore;
 const { searchQuery, categoriesList, currentCategoryId, statusList, onlyNew } =
   storeToRefs(filtersStore);
 
-onBeforeMount(async () => {
-  await fetchCategories();
-  await fetchStatuses();
+onMounted(async () => {
+  Promise.all([fetchCategories(), fetchStatuses()]);
 });
 
 const socials = ref([
@@ -122,9 +116,15 @@ const socials = ref([
   margin-right: auto;
 }
 
+.top-nav__items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
 @media screen and (max-width: 767px) {
-  .top-nav__list {
-    display: flex;
+  .top-nav__items {
     flex-direction: column;
     align-items: flex-end;
   }

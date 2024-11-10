@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { defineStore, storeToRefs } from 'pinia';
 import { watchDebounced } from '@vueuse/core';
 import { useFiltersStore } from '@/stores/filters';
@@ -7,7 +7,7 @@ import booksApi from '@/services/booksApi.js';
 
 export const useBooksStore = defineStore('books', () => {
   const filtersStore = useFiltersStore();
-  const { filterQs } = storeToRefs(filtersStore);
+  const { filterQs, isFiltersLoaded } = storeToRefs(filtersStore);
 
   const loadingStore = useLoadingStore();
 
@@ -29,7 +29,8 @@ export const useBooksStore = defineStore('books', () => {
     loadingStore.startLoading();
 
     try {
-      books = await booksApi.getBooks(filterQs.value + '&page=' + currentPage.value); // TODO refactor
+      const params = new URLSearchParams({ filters: filterQs.value, page: currentPage.value });
+      books = await booksApi.getBooks(`?${params.toString()}`);
     } catch (err) {
       console.error(err);
     }
@@ -61,7 +62,16 @@ export const useBooksStore = defineStore('books', () => {
 
   loadingStore.startLoading();
 
-  watchDebounced(filterQs, clearAndFetch, { debounce: 700, maxWait: 3000 }); // TODO запускать вотчер только после загрузки всех фильтров
+  watch(
+    isFiltersLoaded,
+    async (newValue) => {
+      if (newValue === true) {
+        watchDebounced(filterQs, clearAndFetch, { debounce: 700, maxWait: 3000 });
+        await clearAndFetch();
+      }
+    },
+    { once: true }
+  );
 
   return {
     booksList,

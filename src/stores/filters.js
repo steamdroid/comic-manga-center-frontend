@@ -6,6 +6,9 @@ import booksApi from '@/services/booksApi.js';
 export const useFiltersStore = defineStore('filters', () => {
   const categoriesList = ref(null);
   const currentCategoryId = ref(1);
+  const isCategoriesLoaded = ref(false);
+  const isStatusesLoaded = ref(false);
+  const isFiltersLoaded = computed(() => isCategoriesLoaded.value && isStatusesLoaded.value);
 
   const statusList = ref(null);
 
@@ -46,6 +49,7 @@ export const useFiltersStore = defineStore('filters', () => {
   const fetchCategories = async () => {
     const categories = await booksApi.getCategories();
     categoriesList.value = categories.data;
+    isCategoriesLoaded.value = true;
   };
 
   const fetchStatuses = async () => {
@@ -54,6 +58,7 @@ export const useFiltersStore = defineStore('filters', () => {
       status.active = true;
       return status;
     });
+    isStatusesLoaded.value = true;
   };
 
   return {
@@ -64,6 +69,7 @@ export const useFiltersStore = defineStore('filters', () => {
     statusList,
     onlyNew,
     searchQuery,
-    filterQs
+    filterQs,
+    isFiltersLoaded
   };
 });

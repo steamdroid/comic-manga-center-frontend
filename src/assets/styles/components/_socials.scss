@@ -3,14 +3,11 @@
   flex-direction: row;
   margin: 0;
   padding-left: 15px;
+  gap: 20px;
 }
 
 .socials__item {
   list-style: none;
-
-  &:not(:last-child) {
-    margin-right: 20px;
-  }
 
   a {
     display: flex;
