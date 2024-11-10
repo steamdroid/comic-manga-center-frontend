@@ -4,6 +4,7 @@ import { watchDebounced } from '@vueuse/core';
 import { useFiltersStore } from '@/stores/filters';
 import { useLoadingStore } from '@/stores/loading';
 import booksApi from '@/services/booksApi.js';
+import { showError } from '@/services/errorHandler.js';
 
 export const useBooksStore = defineStore('books', () => {
   const filtersStore = useFiltersStore();
@@ -32,7 +33,7 @@ export const useBooksStore = defineStore('books', () => {
       const params = new URLSearchParams({ filters: filterQs.value, page: currentPage.value });
       books = await booksApi.getBooks(`?${params.toString()}`);
     } catch (err) {
-      console.error(err);
+      showError(err, 'Ошибка при загрузке списка книг');
     }
 
     loadingStore.stopLoading();

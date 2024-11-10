@@ -2,6 +2,7 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { stringify } from 'qs';
 import booksApi from '@/services/booksApi.js';
+import { showError } from '@/services/errorHandler.js';
 
 export const useFiltersStore = defineStore('filters', () => {
   const categoriesList = ref(null);
@@ -47,18 +48,26 @@ export const useFiltersStore = defineStore('filters', () => {
   });
 
   const fetchCategories = async () => {
-    const categories = await booksApi.getCategories();
-    categoriesList.value = categories.data;
-    isCategoriesLoaded.value = true;
+    try {
+      const categories = await booksApi.getCategories();
+      categoriesList.value = categories.data;
+      isCategoriesLoaded.value = true;
+    } catch (err) {
+      showError(err, 'Ошибка при загрузке списка категорий');
+    }
   };
 
   const fetchStatuses = async () => {
-    const statuses = await booksApi.getStatuses();
-    statusList.value = statuses.data.map((status) => {
-      status.active = true;
-      return status;
-    });
-    isStatusesLoaded.value = true;
+    try {
+      const statuses = await booksApi.getStatuses();
+      statusList.value = statuses.data.map((status) => {
+        status.active = true;
+        return status;
+      });
+      isStatusesLoaded.value = true;
+    } catch (err) {
+      showError(err, 'Ошибка при загрузке статусов книг');
+    }
   };
 
   return {
