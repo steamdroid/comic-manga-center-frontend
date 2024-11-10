@@ -1,0 +1,39 @@
+.socials__list {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding-left: 15px;
+}
+
+.socials__item {
+  list-style: none;
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+
+  a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #ffffff;
+    line-height: 1rem;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.socials__item-icon {
+  display: block;
+  height: 24px;
+  width: auto;
+  margin-right: 10px;
+
+  svg {
+    height: 24px;
+    width: 24px;
+  }
+}

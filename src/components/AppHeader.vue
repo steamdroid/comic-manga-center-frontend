@@ -16,9 +16,7 @@
     </div>
     <div class="container">
       <div class="header__wrapper">
-        <div class="header__logo-wrapper">
-          <img src="@/assets/logo.jpg" />
-        </div>
+        <img class="header__logo" src="@/assets/logo.jpg" />
         <div class="header__nav-wrapper">
           <nav class="header__top-nav top-nav">
             <ul class="top-nav__list">
@@ -100,77 +98,28 @@ const socials = ref([
 ]);
 </script>
 <style scoped lang="scss">
-.header {
-  &__wrapper {
-    display: flex;
-    flex-direction: row;
-    padding: 15px 0 10px;
-  }
-
-  &__socials {
-    background-color: #0172ad;
-    padding: 10px 0;
-    color: #ffffff;
-  }
-
-  &__top-nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-
-  &__logo-wrapper {
-    width: 155px;
-    height: 155px;
-    margin-right: auto;
-
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
+.header__wrapper {
+  display: flex;
+  flex-direction: row;
+  padding: 15px 0 10px;
 }
 
-.socials {
-  &__list {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    padding-left: 15px;
-  }
+.header__socials {
+  background-color: #0172ad;
+  padding: 10px 0;
+  color: #ffffff;
+}
 
-  &__item {
-    list-style: none;
+.header__top-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
 
-    &:not(:last-child) {
-      margin-right: 20px;
-    }
-
-    a {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      color: #ffffff;
-      line-height: 1rem;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  &__item-icon {
-    display: block;
-    height: 24px;
-    width: auto;
-    margin-right: 10px;
-
-    svg {
-      height: 24px;
-      width: 24px;
-    }
-  }
+.header__logo {
+  width: 155px;
+  height: 155px;
+  margin-right: auto;
 }
 
 @media screen and (max-width: 767px) {

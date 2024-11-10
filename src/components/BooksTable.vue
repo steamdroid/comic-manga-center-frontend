@@ -63,35 +63,6 @@ useInfiniteScroll(bottom, async () => await fetchBooks(), {
 });
 </script>
 <style scoped lang="scss">
-.loading {
-  width: 100%;
-}
-.badge {
-  display: inline-block;
-  font-size: 14px;
-  padding: 0 7px;
-  border-radius: 3px;
-  color: #ffffff;
-  margin: 0 5px;
-
-  &--new {
-    background-color: #ff0000;
-  }
-}
-.status {
-  &--available {
-    color: #28a745;
-  }
-
-  &--booked {
-    background-color: #0172ad;
-  }
-}
-
-.text-center {
-  text-align: center;
-}
-
 .table-wrapper {
   max-width: 100%;
   overflow-x: scroll;
