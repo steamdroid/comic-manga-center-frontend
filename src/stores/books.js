@@ -30,8 +30,7 @@ export const useBooksStore = defineStore('books', () => {
     loadingStore.startLoading();
 
     try {
-      const params = new URLSearchParams({ filters: filterQs.value, page: currentPage.value });
-      books = await booksApi.getBooks(`?${params.toString()}`);
+      books = await booksApi.getBooks(`${filterQs.value}&page=${currentPage.value}`);
     } catch (err) {
       showError(err, 'Ошибка при загрузке списка книг');
     }
